@@ -16,7 +16,8 @@ module Doorkeeper
     end
 
     def token_strategy(strategy)
-      get_strategy strategy, %w[password client_credentials authorization_code refresh_token]
+      available = %w[password client_credentials authorization_code refresh_token] + Doorkeeper.configuration.optional_grant_types
+      get_strategy strategy, available
     rescue NameError
       raise Errors::InvalidTokenStrategy
     end

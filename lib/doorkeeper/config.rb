@@ -154,6 +154,7 @@ module Doorkeeper
     option :orm, :default => :active_record
     option :test_redirect_uri, :default => 'urn:ietf:wg:oauth:2.0:oob'
     option :active_record_options, :default => {}
+    option :optional_grant_types, :default => []
 
     def refresh_token_enabled?
       !!@refresh_token_enabled

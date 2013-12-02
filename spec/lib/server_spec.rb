@@ -19,6 +19,14 @@ describe Doorkeeper::Server do
       expect { subject.token_request(:code) }.to raise_error(Doorkeeper::Errors::InvalidTokenStrategy)
     end
 
+    context 'when set optional_grant_types configuration' do
+      before { Doorkeeper::Request::Code.stub(:build) } # suppress error in Doorkeeper::Request::Code.build
+      it 'does not raise error when strategy matches optional phase' do
+        expect(Doorkeeper.configuration).to receive(:optional_grant_types).and_return %w[code]
+        expect { subject.token_request(:code) }.to_not raise_error
+      end
+    end
+
     it 'builds the request with selected strategy' do
       stub_const 'Doorkeeper::Request::Code', fake_class
       fake_class.should_receive(:build).with(subject)
